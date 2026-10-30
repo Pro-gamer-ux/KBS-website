@@ -1,0 +1,18 @@
+KBS INDUSTRIAL WEBSITE
+
+Open index.html to view the home page. Keep all files together:
+- index.html, solutions.html, explorer.html, company.html, contact.html, knowledge.html, planner.html
+- site.css, kb.css, site.js, knowledge.js and explorer.js
+- assets/kbs-logo.png
+
+The website is static. It makes no AI API calls. The KBS Quick Answers assistant and searchable Knowledge Centre use knowledge.js. Review company-specific answers before publishing, especially entries marked not confirmed. The contact form opens the visitor's email program; it does not store or submit enquiries to a server.
+
+To publish free with GitHub Pages:
+1. Create a public GitHub repository and upload the files and assets folder, preserving their folder structure.
+2. In repository Settings > Pages, publish the main branch from the root folder.
+3. Add your domain in the Pages custom-domain setting.
+4. At GoDaddy, add the DNS records GitHub Pages provides for the root domain and www. Keep any MX and TXT records used for email.
+5. After GitHub verifies the DNS, enable HTTPS in Pages settings.
+
+The GoDaddy domain registration remains with GoDaddy and renews there. The System Explorer helps visitors understand service paths; it does not select or size equipment. The Project Planner organises a customer brief and does not make engineering decisions.
+
