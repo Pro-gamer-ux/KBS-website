@@ -1,18 +1,24 @@
 KBS INDUSTRIAL WEBSITE
 
-Open index.html to view the home page. Keep all files together:
-- index.html, solutions.html, explorer.html, company.html, contact.html, knowledge.html, planner.html
-- site.css, kb.css, site.js, knowledge.js and explorer.js
-- assets/kbs-logo.png
+Open index.html to view the homepage. Keep all files together:
+- index.html, solutions.html, industries.html, support.html, catalogues.html, explorer.html, company.html, contact.html, knowledge.html, planner.html
+- site.css, kb.css, site.js, carousel.js, knowledge.js and explorer.js
+- assets/kbs-logo.png, the supplied crane photos and film, and lightweight SVG illustrations
 
-The website is static. It makes no AI API calls. The KBS Quick Answers assistant and searchable Knowledge Centre use knowledge.js. Review company-specific answers before publishing, especially entries marked not confirmed. The contact form opens the visitor's email program; it does not store or submit enquiries to a server.
+The site is static. KBS Quick Answers and the searchable FAQs use knowledge.js and make no AI API calls. The assistant is an offline information guide, not a staffed live chat. Long answers open under “More detail.” The planner prepares a message for WhatsApp or email; it does not size equipment. The contact form opens the visitor’s email app and does not store enquiries on a server.
+
+The home carousel uses the supplied crane photographs and video. Photos rotate automatically; visitors can pause or change slides. The short video loads only when its slide is selected and must be played by the visitor. Explore KBS Solutions keeps the choice simple: choose a category, then choose Buy, Rent or Refurbish for cranes.
+
+Products & Services covers crane sales, rental, refurbishment and modernisation, lifting systems, parking, access control, perimeter security, and electrical/automation enquiries. Service & Support covers installation, maintenance, repair, inspection planning, spare parts and upgrades. Equipment availability, technical ratings and exact project scope are confirmed for each job.
+
+Catalogues has category links ready. When official company PDFs are provided, add them to assets/catalogues and link the right files from catalogues.html.
 
 To publish free with GitHub Pages:
-1. Create a public GitHub repository and upload the files and assets folder, preserving their folder structure.
-2. In repository Settings > Pages, publish the main branch from the root folder.
-3. Add your domain in the Pages custom-domain setting.
-4. At GoDaddy, add the DNS records GitHub Pages provides for the root domain and www. Keep any MX and TXT records used for email.
-5. After GitHub verifies the DNS, enable HTTPS in Pages settings.
+1. Upload all site files and the assets folder to the repository root, preserving folder structure.
+2. In repository Settings > Pages, publish the main branch from /(root).
+3. Keep your custom domain in Pages settings.
+4. At GoDaddy, keep the GitHub Pages A records and www CNAME. Keep MX and TXT records used for email.
+5. After DNS verification and TLS setup, enable Enforce HTTPS.
 
-The GoDaddy domain registration remains with GoDaddy and renews there. The System Explorer helps visitors understand service paths; it does not select or size equipment. The Project Planner organises a customer brief and does not make engineering decisions.
+KBS is based in Kadavanthara, Kochi, Kerala. Update company-specific wording when service details change. The interactive explorer and planner help organise enquiries; they do not make engineering decisions.
 

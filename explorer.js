@@ -1,20 +1,55 @@
-window.KBS_EXPLORER = [
-  {id:'lifting',short:'Lift & move',tag:'CRANES & LIFTING',title:'Move loads through the work.',description:'KBS identifies mobile gantry cranes as its core focus and lists crane and lifting systems among its solutions.',prompt:'For a useful first review, gather the load and lifting accessories, span, lift height, headroom, travel path, duty cycle, indoor or outdoor conditions, and a layout drawing if available.',caution:'A crane type or capacity cannot be selected safely from a short description. Structural checks and engineering review are required.',need:'Crane or lifting system'},
-  {id:'access',short:'Manage access',tag:'ACCESS CONTROL',title:'Decide who enters, and where.',description:'KBS lists access control as a solution. Start by mapping the doors, vehicle gates, user groups and visitor flow you want to manage.',prompt:'Note each entry point, how many people or vehicles use it, the credentials you prefer, visitor needs, existing systems and any reporting requirements.',caution:'Biometric, RFID, CCTV, remote monitoring and software integrations depend on the chosen products. KBS needs to confirm features and compatibility.',need:'Access control'},
-  {id:'perimeter',short:'Protect the boundary',tag:'BOLLARDS & ROAD BLOCKERS',title:'Control vehicle approach points.',description:'KBS lists automatic and manual bollards and road blockers for site access and perimeter requirements.',prompt:'Share the lane width, traffic type and volume, available foundation depth, drainage and utilities, operating frequency, access controls and the protection objective.',caution:'Impact protection must be verified for the exact tested product and installation. No rating or security performance is implied here.',need:'Bollards or road blockers'},
-  {id:'parking',short:'Manage parking',tag:'PARKING SOLUTIONS',title:'Make vehicle flow easier to manage.',description:'KBS lists parking solutions. A clear picture of arrival patterns and entry layout helps frame the discussion.',prompt:'Count entry and exit lanes, describe peak queues and parking volume, list any existing barriers or payment tools, and note whether you need reports or integrations.',caution:'Number-plate recognition, payment integration and real-time occupancy are not confirmed KBS features; ask the team about each one.',need:'Parking solution'},
-  {id:'support',short:'Service & consult',tag:'PROJECT SUPPORT',title:'Start with the equipment and the issue.',description:'KBS lists site assessment, engineering consultation, installation, maintenance and servicing. Small, focused jobs are welcome.',prompt:'Share the equipment type, make and model if known, site location, operating context, fault or objective, available drawings and preferred timing.',caution:'Response targets, emergency cover, warranties, spare parts, commissioning and annual contracts must be confirmed directly with KBS.',need:'Engineering consultation / not sure yet'}
-];
-
-document.querySelectorAll('[data-system-explorer]').forEach(root => {
-  const items=window.KBS_EXPLORER||[],tabs=root.querySelector('[data-explorer-tabs]');
-  const title=root.querySelector('[data-explorer-title]'),tag=root.querySelector('[data-explorer-tag]'),description=root.querySelector('[data-explorer-description]'),prompt=root.querySelector('[data-explorer-prompt]'),caution=root.querySelector('[data-explorer-caution]'),number=root.querySelector('[data-explorer-number]'),plannerLink=root.querySelector('[data-explorer-planner]');
-  if(!tabs||!title)return;
-  function select(item){
-    root.dataset.active=item.id;title.textContent=item.title;tag.textContent=item.tag;description.textContent=item.description;prompt.textContent=item.prompt;caution.textContent=item.caution;number.textContent=`${String(items.indexOf(item)+1).padStart(2,'0')} / ${String(items.length).padStart(2,'0')}`;
-    if(plannerLink){plannerLink.href=`planner.html?need=${encodeURIComponent(item.need)}`;}
-    tabs.querySelectorAll('button').forEach(button=>{const active=button.dataset.explorerOption===item.id;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;});
-  }
-  items.forEach((item,index)=>{const button=document.createElement('button');button.type='button';button.className='explorer-tab';button.dataset.explorerOption=item.id;button.setAttribute('role','tab');button.setAttribute('aria-selected',String(index===0));button.tabIndex=index===0?0:-1;button.innerHTML=`<span class="explorer-tab-num">0${index+1}</span><span>${item.short}</span><b aria-hidden="true">↗</b>`;button.addEventListener('click',()=>select(item));button.addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='ArrowRight'){e.preventDefault();tabs.children[(index+1)%items.length].focus();tabs.children[(index+1)%items.length].click();}if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();tabs.children[(index+items.length-1)%items.length].focus();tabs.children[(index+items.length-1)%items.length].click();}});tabs.append(button);});
-  select(items[0]);
-});
+(() => {
+  const paths = {
+    cranes: {
+      label: 'Cranes',
+      description: 'Choose whether you want to buy, rent or refurbish lifting equipment.',
+      options: [
+        {label:'Buy', need:'Crane sales or supply', title:'Crane sales & supply', intro:'Explore a crane for your site and operating needs.', bullets:['Load, span and lift height','Site layout or drawings']},
+        {label:'Rent', need:'Equipment rental', title:'Crane rental', intro:'Ask about equipment for a temporary or project-based need.', bullets:['Location and rental dates','Capacity, access and operating conditions']},
+        {label:'Refurbish', need:'Crane refurbishment or modernisation', title:'Refurbishment & modernisation', intro:'Review an existing crane and discuss repair or upgrade options.', bullets:['Make, model and equipment age','Photos, service history and known issues']}
+      ]
+    },
+    parking: {
+      label:'Parking & Access', description:'Choose the site flow you want to manage.', options:[
+        {label:'Parking systems',need:'Parking solution',title:'Parking solutions',intro:'Discuss how vehicles enter, exit and move through your parking area.',bullets:['Number of lanes and peak traffic','Existing barriers or payment system']},
+        {label:'Access control',need:'Access control',title:'Access control',intro:'Plan how people or vehicles enter designated areas.',bullets:['Doors, gates and user groups','Visitor and reporting requirements']}
+      ]
+    },
+    security: {
+      label:'Site Security',description:'Choose the type of vehicle protection you need.',options:[
+        {label:'Bollards',need:'Bollards or road blockers',title:'Bollards',intro:'Review fixed, removable or automatic bollard requirements.',bullets:['Entry layout and traffic','Foundation depth and utilities']},
+        {label:'Road blockers',need:'Bollards or road blockers',title:'Road blockers',intro:'Discuss controlled vehicle approach points for your facility.',bullets:['Lane width and operating frequency','Site access and safety requirements']}
+      ]
+    },
+    support: {
+      label:'Service & Automation',description:'Choose the support or system change you want to discuss.',options:[
+        {label:'Maintenance & repair',need:'Maintenance or servicing',title:'Maintenance & repair',intro:'Start with the equipment and what needs attention.',bullets:['Make, model and service history','Issue, fault code or preferred timing']},
+        {label:'Electrical & automation',need:'Electrical controls or automation',title:'Electrical & automation',intro:'Describe the machinery and the outcome you want to achieve.',bullets:['Existing controls or wiring information','Process, equipment and desired change']}
+      ]
+    }
+  };
+  window.KBS_EXPLORER = paths;
+  document.querySelectorAll('[data-system-explorer]').forEach(root => {
+    const tabs=root.querySelector('[data-explorer-tabs]'), picks=root.querySelector('[data-explorer-picks]');
+    const title=root.querySelector('[data-explorer-title]'), tag=root.querySelector('[data-explorer-tag]'), desc=root.querySelector('[data-explorer-description]');
+    const bullets=root.querySelector('[data-explorer-bullets]'), link=root.querySelector('[data-explorer-planner]'), number=root.querySelector('[data-explorer-number]');
+    if(!tabs||!picks||!title||!link)return;
+    const keys=Object.keys(paths);let activeKey='cranes',activeNeed='';
+    const showOption=(key,index)=>{
+      const group=paths[key], item=group.options[index];activeKey=key;activeNeed=item.need;
+      title.textContent=item.title;tag.textContent=group.label+' / '+item.label;desc.textContent=item.intro;
+      bullets.replaceChildren(...item.bullets.map(text=>{const li=document.createElement('li');li.textContent=text;return li;}));
+      link.href='planner.html?need='+encodeURIComponent(item.need);link.textContent='Prepare a project brief ↗';
+      number.textContent=String(keys.indexOf(key)+1).padStart(2,'0')+' / '+String(keys.length).padStart(2,'0');
+      picks.querySelectorAll('button').forEach((b,i)=>{b.classList.toggle('active',i===index);b.setAttribute('aria-pressed',String(i===index));});
+      tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.path===key));
+    };
+    const showCategory=key=>{
+      const group=paths[key];tabs.querySelectorAll('button').forEach(b=>{const selected=b.dataset.path===key;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected));});
+      picks.replaceChildren(...group.options.map((option,index)=>{const b=document.createElement('button');b.type='button';b.className='explorer-pick';b.textContent=option.label;b.addEventListener('click',()=>showOption(key,index));return b;}));
+      showOption(key,0);
+    };
+    tabs.replaceChildren(...keys.map(key=>{const b=document.createElement('button');b.type='button';b.className='explorer-tab';b.dataset.path=key;b.textContent=paths[key].label;b.setAttribute('aria-pressed','false');b.addEventListener('click',()=>showCategory(key));return b;}));
+    showCategory(activeKey);
+  });
+})();
